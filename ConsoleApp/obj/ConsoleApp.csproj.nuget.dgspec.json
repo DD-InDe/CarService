@@ -13,7 +13,6 @@
         "packagesPath": "C:\\Users\\alena\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\ConsoleApp\\obj\\",
         "projectStyle": "PackageReference",
-        "UsingMicrosoftNETSdk": false,
         "configFilePaths": [
           "C:\\Users\\alena\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
@@ -44,6 +43,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.Data.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.12, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
