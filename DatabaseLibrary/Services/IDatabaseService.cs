@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp.Services;
+﻿namespace DatabaseLibrary.Services;
 
 public interface IDatabaseService
 {
@@ -7,4 +7,6 @@ public interface IDatabaseService
     void Delete();
     void Import();
     void Post();
+
+    bool Authorization();
 }
