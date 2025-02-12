@@ -1,26 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "L3mTVf1h1gM=",
-  "success": false,
+  "dgSpecHash": "k9enbIlpjuiwadZBCSbab7hUtHa0AJ1qLAeuaLI7YXqnDDSd8/Iu3gdmagQlIrOAVbEVMyyMl4pPoID4Gun0SQ==",
+  "success": true,
   "projectFilePath": "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\ConsoleApp\\ConsoleApp.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\alena\\.nuget\\packages\\microsoft.data.sqlite\\8.0.12\\microsoft.data.sqlite.8.0.12.nupkg.sha512",
-    "C:\\Users\\alena\\.nuget\\packages\\microsoft.data.sqlite.core\\8.0.12\\microsoft.data.sqlite.core.8.0.12.nupkg.sha512",
+    "C:\\Users\\alena\\.nuget\\packages\\microsoft.data.sqlite\\8.0.13\\microsoft.data.sqlite.8.0.13.nupkg.sha512",
+    "C:\\Users\\alena\\.nuget\\packages\\microsoft.data.sqlite.core\\8.0.13\\microsoft.data.sqlite.core.8.0.13.nupkg.sha512",
     "C:\\Users\\alena\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.6\\sqlitepclraw.bundle_e_sqlite3.2.1.6.nupkg.sha512",
     "C:\\Users\\alena\\.nuget\\packages\\sqlitepclraw.core\\2.1.6\\sqlitepclraw.core.2.1.6.nupkg.sha512",
     "C:\\Users\\alena\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.6\\sqlitepclraw.lib.e_sqlite3.2.1.6.nupkg.sha512",
     "C:\\Users\\alena\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.1.6\\sqlitepclraw.provider.e_sqlite3.2.1.6.nupkg.sha512",
     "C:\\Users\\alena\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Warning As Error: Detected package downgrade: Microsoft.Data.Sqlite from 8.0.13 to 8.0.12. Reference the package directly from the project to select a different version. \r\n ConsoleApp -> DatabaseLibrary -> Microsoft.Data.Sqlite (>= 8.0.13) \r\n ConsoleApp -> Microsoft.Data.Sqlite (>= 8.0.12)",
-      "libraryId": "Microsoft.Data.Sqlite",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  "logs": []
 }

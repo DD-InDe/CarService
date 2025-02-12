@@ -4,30 +4,36 @@ namespace ConsoleApp.Services;
 
 public class MenuService : IMenuService
 {
+    DatabaseService service;
+
     public void Start(String[] args)
     {
         try
         {
-            DatabaseService service = new();
+            service = new();
+
             switch (args[1])
             {
                 case "install":
                     if (args.Length > 2)
-                        service.Install(args[2]);
+                        Install(args[2]);
                     else
                         Console.WriteLine("Неверный вызов команды. dotnet run install [название базы]");
                     break;
                 case "view":
-                    service.View();
+                    if (Authorization())
+                        service.View();
                     break;
                 case "delete":
-                    service.Delete();
+                    if (Authorization())
+                        service.Delete();
                     break;
                 case "import":
                     service.Import();
                     break;
                 case "post":
-                    service.Post();
+                    if (Authorization())
+                        service.Post();
                     break;
                 case "--info":
                     Console.WriteLine("dotnet run [команда]");
@@ -49,5 +55,48 @@ public class MenuService : IMenuService
         {
             Console.WriteLine(e);
         }
+    }
+
+    public bool Install(String name)
+    {
+        try
+        {
+            string path = $"{service.GetBasePath()}{name}.db";
+
+            if (File.Exists(path))
+            {
+                Console.WriteLine("База данных уже существует, хотите перезаписать её?");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("\t\t[Y] да");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\t[N] нет\n");
+                Console.ResetColor();
+
+                String? answer = Console.ReadLine()?.ToLower();
+                if (answer is "y")
+                {
+                    File.Delete(path);
+                    service.CreateTables();
+                    File.WriteAllText(Path.Combine(service.GetBasePath(), "database.txt"), $"{name}.db");
+                }
+            }
+            else
+            {
+                File.WriteAllText(Path.Combine(service.GetBasePath(), "database.txt"), $"{name}.db");
+                service.CreateTables();
+            }
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return false;
+        }
+    }
+
+    public bool Authorization()
+    {
+        return true;
     }
 }
