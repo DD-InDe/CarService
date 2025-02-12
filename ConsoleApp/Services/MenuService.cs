@@ -1,4 +1,5 @@
-﻿using DatabaseLibrary.Services;
+﻿using DatabaseLibrary.Models;
+using DatabaseLibrary.Services;
 
 namespace ConsoleApp.Services;
 
@@ -21,27 +22,25 @@ public class MenuService : IMenuService
                         Console.WriteLine("Неверный вызов команды. dotnet run install [название базы]");
                     break;
                 case "view":
-                    if (Authorization())
-                        service.View();
+                    ViewData();
                     break;
                 case "delete":
-                    if (Authorization())
-                        service.Delete();
+                    if (args.Length > 2)
+                        DeleteData(args[2]);
+                    else
+                        Console.WriteLine("Неверный вызов команды. dotnet run delete [guid]");
                     break;
                 case "import":
-                    service.Import();
+                    if (args.Length > 2)
+                        ImportData(args[2]);
+                    else
+                        Console.WriteLine("Неверный вызов команды. dotnet run import [путь к файлу]");
                     break;
                 case "post":
-                    if (Authorization())
-                        service.Post();
+                    PostData();
                     break;
                 case "--info":
-                    Console.WriteLine("dotnet run [команда]");
-                    Console.WriteLine("\t install [название базы] - инициализировать базу данных");
-                    Console.WriteLine("\t view - ");
-                    Console.WriteLine("\t delete - ");
-                    Console.WriteLine("\t import - ");
-                    Console.WriteLine("\t post - ");
+                    ShowInfo();
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -57,11 +56,22 @@ public class MenuService : IMenuService
         }
     }
 
+    private static void ShowInfo()
+    {
+        Console.WriteLine("dotnet run [команда]");
+        Console.WriteLine("\t install [название базы] - инициализировать базу данных");
+        Console.WriteLine("\t view - ");
+        Console.WriteLine("\t delete - ");
+        Console.WriteLine("\t import - ");
+        Console.WriteLine("\t post - ");
+    }
+
     public bool Install(String name)
     {
         try
         {
-            string path = $"{service.GetBasePath()}{name}.db";
+            string path = Path.Combine(service.GetBasePath(), $"{name}.db");
+            Console.WriteLine(path);
 
             if (File.Exists(path))
             {
@@ -93,6 +103,36 @@ public class MenuService : IMenuService
             Console.WriteLine(e);
             return false;
         }
+    }
+
+    private void ViewData()
+    {
+        if (Authorization())
+        {
+            List<Order> orders = service.View();
+            if (orders.Count == 0)
+            {
+                Console.WriteLine("Данных еще нет!");
+                return;
+            }
+
+            // var groupped = orders.GroupBy(c => c.Guid);
+        }
+    }
+
+    private void DeleteData(string guid)
+    {
+        if (Authorization())
+        {
+        }
+    }
+
+    private void ImportData(string path)
+    {
+    }
+
+    private void PostData()
+    {
     }
 
     public bool Authorization()
