@@ -1,12 +1,12 @@
-﻿namespace DatabaseLibrary.Services;
+﻿using DatabaseLibrary.Enums;
+using DatabaseLibrary.Models;
+
+namespace DatabaseLibrary.Services;
 
 public interface IDatabaseService
 {
-    void Install(String name);
-    void View();
-    void Delete();
-    void Import();
-    void Post();
-
-    bool Authorization();
+    public List<Order> View();
+    public bool Delete(String guid);
+    public bool Import(String path, FileExtension extension, Char? separator);
+    public bool Post();
 }

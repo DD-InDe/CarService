@@ -37,7 +37,10 @@ public class MenuService : IMenuService
                         Console.WriteLine("Неверный вызов команды. dotnet run import [путь к файлу]");
                     break;
                 case "post":
-                    PostData();
+                    if (args.Length > 2)
+                        PostData(args[2]);
+                    else
+                        Console.WriteLine("Неверный вызов команды. dotnet run post [guid]");
                     break;
                 case "--info":
                     ShowInfo();
@@ -71,7 +74,7 @@ public class MenuService : IMenuService
         try
         {
             string path = Path.Combine(service.GetBasePath(), $"{name}.db");
-            Console.WriteLine(path);
+            
 
             if (File.Exists(path))
             {
@@ -116,7 +119,12 @@ public class MenuService : IMenuService
                 return;
             }
 
-            // var groupped = orders.GroupBy(c => c.Guid);
+            List<IGrouping<String, Order>> groupedList = orders.GroupBy(c => c.Guid).ToList();
+            for (int i = 0; i < groupedList.Count; i++)
+            {
+                // Order order = (Order)groupedList.ElementAt(i);
+                // Console.WriteLine($"\t{order.z}|{grouping.ElementAt()}");
+            }
         }
     }
 
@@ -127,12 +135,50 @@ public class MenuService : IMenuService
         }
     }
 
-    private void ImportData(string path)
+    private bool ImportData(string path)
     {
+        try
+        {
+            if (Authorization())
+            {
+                if (File.Exists(path))
+                {
+                    FileInfo info = new FileInfo(path);
+                    Char separator;
+
+                    switch (info.Extension)
+                    {
+                        case ".txt":
+                        case ".csv":
+                            Console.Write("Введите символ разделитель: ");
+                            separator = (Console.ReadLine() ?? String.Empty)[0];
+                            break;
+                        case ".json":
+                            break;
+                        case ".xml":
+                            break;
+                    }
+
+                    if (info.Extension == ".txt" || info.Extension == ".csv")
+                    {
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            //todo: сделать логи ошибок
+        }
+
+        return false;
     }
 
-    private void PostData()
+    private void PostData(string guid)
     {
+        if (Authorization())
+        {
+        }
     }
 
     public bool Authorization()

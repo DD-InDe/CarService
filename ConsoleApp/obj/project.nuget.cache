@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "k9enbIlpjuiwadZBCSbab7hUtHa0AJ1qLAeuaLI7YXqnDDSd8/Iu3gdmagQlIrOAVbEVMyyMl4pPoID4Gun0SQ==",
+  "dgSpecHash": "yof/N8HrBU0=",
   "success": true,
   "projectFilePath": "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\ConsoleApp\\ConsoleApp.csproj",
   "expectedPackageFiles": [
@@ -12,5 +12,12 @@
     "C:\\Users\\alena\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.1.6\\sqlitepclraw.provider.e_sqlite3.2.1.6.nupkg.sha512",
     "C:\\Users\\alena\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json."
+    }
+  ]
 }
