@@ -10,4 +10,8 @@ public partial class OrderMaterialClient
     public int? Count { get; set; }
 
     public string? Name { get; set; }
+
+    public int? OrderId { get; set; }
+
+    public virtual Order? Order { get; set; }
 }

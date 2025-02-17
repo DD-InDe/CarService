@@ -6,16 +6,17 @@ namespace Api.Models.Database;
 
 public partial class CarServiceDbContext : DbContext
 {
-    private readonly IConfiguration _configuration;
+    private IConfiguration _configuration;
 
     public CarServiceDbContext(IConfiguration configuration)
     {
         _configuration = configuration;
     }
 
-    public CarServiceDbContext(DbContextOptions<CarServiceDbContext> options)
+    public CarServiceDbContext(DbContextOptions<CarServiceDbContext> options, IConfiguration configuration)
         : base(options)
     {
+        _configuration = configuration;
     }
 
     public virtual DbSet<Client> Clients { get; set; }
@@ -40,8 +41,11 @@ public partial class CarServiceDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        String connection = _configuration.GetValue<String>("ConnectionString:DefaultConnection")!;
-        optionsBuilder.UseNpgsql(connection);
+        if (!optionsBuilder.IsConfigured)
+        {
+            String connection = _configuration.GetValue<String>("ConnectionString:DefaultConnection")!;
+            optionsBuilder.UseNpgsql(connection);
+        }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -149,6 +153,11 @@ public partial class CarServiceDbContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(200)
                 .HasColumnName("name");
+            entity.Property(e => e.OrderId).HasColumnName("order_id");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderMaterialClients)
+                .HasForeignKey(d => d.OrderId)
+                .HasConstraintName("order_material_client___fk");
         });
 
         modelBuilder.Entity<OrderMaterialService>(entity =>
