@@ -2,9 +2,9 @@
 
 public class Transaction
 {
-    public string Guid { get; set; }
+    public string Guid { get; set; } = default!;
     public DateTime DateTime { get; set; }
-    public string TableName { get; set; }
+    public string TableName { get; set; } = default!;
     public int RowsCount { get; set; }
 
     public override string ToString()

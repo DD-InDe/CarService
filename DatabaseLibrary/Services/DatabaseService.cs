@@ -212,17 +212,17 @@ public class DatabaseService : IDatabaseService
                 { Guid = Guid.NewGuid().ToString(), DateTime = DateTime.Now, TableName = "order" };
             ImportService service = new ImportService(path);
 
-            List<Order> orders = new();
+            List<Order> orders;
             switch (extension)
             {
                 case FileExtension.Csv:
-                    orders = service.FromCsv<Order>(separator.Value);
+                    orders = service.FromCsv<Order>(separator!.Value);
                     break;
                 case FileExtension.Json:
                     orders = service.FromJson<Order>();
                     break;
                 case FileExtension.Txt:
-                    orders = service.FromTxt<Order>(separator.Value);
+                    orders = service.FromTxt<Order>(separator!.Value);
                     break;
                 case FileExtension.Xml:
                     orders = service.FromXml<OrderList>().Orders;
@@ -280,8 +280,14 @@ public class DatabaseService : IDatabaseService
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            if (!Directory.Exists("logs"))
+                Directory.CreateDirectory("logs");
+            DateTime dt = DateTime.Now;
+            String fileName = $"{dt.ToString("yyyy-MM-dd")}_{dt.ToString("hh_mm")}_error.log";
+            String logPath = Path.Combine("logs", fileName);
+            File.WriteAllText(logPath, e.ToString());
+            Console.WriteLine($"Ошибка импорта. Подробности в файле {logPath}");
+            return false;
         }
     }
 

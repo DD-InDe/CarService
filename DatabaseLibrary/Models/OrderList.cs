@@ -5,5 +5,5 @@ namespace DatabaseLibrary.Models;
 [XmlRoot("item")]
 public class OrderList
 {
-    [XmlElement("order")] public List<Order> Orders { get; set; }
+    [XmlElement("order")] public List<Order> Orders { get; set; } = new();
 }

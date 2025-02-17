@@ -7,17 +7,17 @@ namespace DatabaseLibrary.Models;
 public class Order : IFillable
 {
     public int Id { get; set; }
-    [XmlElement("clientFullName")] public string ClientFullName { get; set; }
+    [XmlElement("clientFullName")] public string ClientFullName { get; set; } = default!;
     [XmlElement("dateCreate")] public DateTime DateCreate { get; set; }
     [XmlElement("dateComplete")] public DateTime DateComplete { get; set; }
-    [XmlElement("carBrand")] public string CarBrand { get; set; }
-    [XmlElement("carModel")] public string CarModel { get; set; }
-    [XmlElement("govNumber")] public string GovNumber { get; set; }
-    [XmlElement("carVin")] public string CarVin { get; set; }
-    [XmlElement("employeeFullName")] public string EmployeeFullName { get; set; }
-    [XmlElement("services")] public string Services { get; set; }
-    [XmlElement("materials")] public string Materials { get; set; }
-    [XmlElement("сlientMaterials")] public string ClientMaterials { get; set; }
+    [XmlElement("carBrand")] public string CarBrand { get; set; } = default!;
+    [XmlElement("carModel")] public string CarModel { get; set; } = default!;
+    [XmlElement("govNumber")] public string GovNumber { get; set; } = default!;
+    [XmlElement("carVin")] public string CarVin { get; set; } = default!;
+    [XmlElement("employeeFullName")] public string EmployeeFullName { get; set; } = default!;
+    [XmlElement("services")] public string Services { get; set; } = default!;
+    [XmlElement("materials")] public string Materials { get; set; } = default!;
+    [XmlElement("сlientMaterials")] public string ClientMaterials { get; set; } = default!;
     public string? Guid { get; set; }
     public Transaction? Transaction { get; set; }
 

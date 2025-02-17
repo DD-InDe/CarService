@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using System.Xml;
 using System.Xml.Serialization;
-using DatabaseLibrary.Models;
 
 namespace DatabaseLibrary.Services;
 
@@ -34,7 +33,7 @@ internal class ImportService(String path) : IImportService
             Stream stream = File.OpenRead(_path);
 
             using var xmlReader = XmlReader.Create(stream);
-            return (T)serializer.Deserialize(xmlReader);
+            return (T)serializer.Deserialize(xmlReader)!;
         }
         catch (Exception e)
         {
