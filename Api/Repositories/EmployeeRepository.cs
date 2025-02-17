@@ -7,17 +7,17 @@ public class EmployeeRepository(CarServiceDbContext context) : IRepository<Emplo
 {
     public async Task<Employee?> GetById(int id)
     {
-        return await context.Employees.FindAsync(id);
+        return await context.Employees.Include(c=>c.IdNavigation).FirstOrDefaultAsync(c=>c.Id==id);
     }
 
     public async Task<Employee?> GetByDataEmployee(String login, String password)
     {
-        return await context.Employees.FirstOrDefaultAsync(c => c.Login == login && c.Password == password);
+        return await context.Employees.Include(c=>c.IdNavigation).FirstOrDefaultAsync(c => c.Login == login && c.Password == password);
     }
 
     public async Task<List<Employee>?> GetAll()
     {
-        return await context.Employees.ToListAsync();
+        return await context.Employees.Include(c=>c.IdNavigation).ToListAsync();
     }
 
     public async Task<bool> Add(Employee entity)
@@ -35,7 +35,7 @@ public class EmployeeRepository(CarServiceDbContext context) : IRepository<Emplo
         return await context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> Edit(Employee entity)
+    public async Task<bool> Update(Employee entity)
     {
         Employee? employee = await context.Employees.FindAsync(entity.Id);
         if (employee == null) return false;

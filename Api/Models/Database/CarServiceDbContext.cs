@@ -43,7 +43,7 @@ public partial class CarServiceDbContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            String connection = _configuration.GetValue<String>("ConnectionString:DefaultConnection")!;
+            String connection = _configuration.GetValue<String>("ConnectionStrings:DefaultConnection")!;
             optionsBuilder.UseNpgsql(connection);
         }
     }
@@ -87,6 +87,11 @@ public partial class CarServiceDbContext : DbContext
             entity.Property(e => e.Password)
                 .HasMaxLength(50)
                 .HasColumnName("password");
+
+            entity.HasOne(d => d.IdNavigation).WithOne(p => p.Employee)
+                .HasForeignKey<Employee>(d => d.Id)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("employee___fk");
         });
 
         modelBuilder.Entity<Material>(entity =>

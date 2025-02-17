@@ -8,4 +8,5 @@ public interface IModelService<D, O>
     Task<bool> UpdateObject(D newObject);
     Task<bool> DeleteObject(int id);
     D ToDto(O model);
+    O FromDto(D dto);
 }

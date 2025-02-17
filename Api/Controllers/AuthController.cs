@@ -8,16 +8,15 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("api/")]
-
-public class AuthController(IJwtTokenManager jwtTokenManager, CarServiceDbContext context) : ControllerBase
+public class AuthController(AuthService service) : ControllerBase
 {
     [AllowAnonymous]
     [HttpPost("authenticate")]
-    public IActionResult LogIn([FromBody] UserCredential credential)
+    public async Task<ActionResult<Account>> LogIn([FromBody] UserCredential credential)
     {
         try
         {
-            return Ok(jwtTokenManager.Authenticate(credential.Username,credential.Password));
+            return await service.LogIn(credential.Username, credential.Password);
         }
         catch (Exception e)
         {

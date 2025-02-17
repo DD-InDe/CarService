@@ -14,4 +14,6 @@ public partial class Person
     public string? MiddleName { get; set; }
 
     public virtual Client? Client { get; set; }
+
+    public virtual Employee? Employee { get; set; }
 }

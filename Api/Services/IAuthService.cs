@@ -1,8 +1,8 @@
-﻿using Api.Models.Dtos;
+﻿using Api.Models.ClientModels;
 
 namespace Api.Services;
 
 public interface IAuthService
 {
-    EmployeeDto LogIn(String login, String password);
+    Task<Account> LogIn(String login, String password);
 }

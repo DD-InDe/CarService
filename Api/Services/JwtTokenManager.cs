@@ -7,7 +7,7 @@ namespace Api.Services;
 
 public class JwtTokenManager(IConfiguration configuration) : IJwtTokenManager
 {
-    public string Authenticate(string username, string password)
+    public string Authenticate(string username)
     {
         String key = configuration.GetValue<String>("JwtConfig:Key")!;
         byte[] keyBytes = Encoding.UTF8.GetBytes(key);

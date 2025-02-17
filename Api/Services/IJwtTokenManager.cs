@@ -2,5 +2,5 @@
 
 public interface IJwtTokenManager
 {
-    String Authenticate(String username, String password);
+    String Authenticate(String username);
 }

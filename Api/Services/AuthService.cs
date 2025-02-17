@@ -1,16 +1,22 @@
-﻿using Api.Models.Database;
+﻿using Api.Models.ClientModels;
 using Api.Models.Dtos;
 using Api.Repositories;
+using Api.Services.ModelServices;
 
 namespace Api.Services;
 
-public class AuthService(EmployeeRepository repository) : IAuthService
+public class AuthService(IJwtTokenManager jwtTokenManager, EmployeeService service) : IAuthService
 {
-    public EmployeeDto LogIn(string login, string password)
+    public async Task<Account> LogIn(string login, string password)
     {
         try
         {
-            return new();
+            EmployeeDto dto = await service.GetObjectByData(login, password);
+            return new Account()
+            {
+                Employee = dto,
+                Token = jwtTokenManager.Authenticate(login)
+            };
         }
         catch (Exception e)
         {

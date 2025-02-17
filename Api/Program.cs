@@ -1,6 +1,9 @@
 using System.Text;
 using Api.Models.Database;
+using Api.Models.Dtos;
+using Api.Repositories;
 using Api.Services;
+using Api.Services.ModelServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -14,7 +17,32 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<CarServiceDbContext>();
 
+
+
+#region Repositories
+
+builder.Services.AddScoped<EmployeeRepository>();
+builder.Services.AddScoped<IRepository<Employee>, EmployeeRepository>();
+
+#endregion
+
+#region ModelServices
+
+builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<IModelService<EmployeeDto, Employee>, EmployeeService>();
+
+#endregion
+
+#region Services
+
 builder.Services.AddSingleton<IJwtTokenManager, JwtTokenManager>();
+
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+#endregion
+
+
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
