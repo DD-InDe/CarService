@@ -1,18 +1,21 @@
-﻿using DatabaseLibrary.Models;
+﻿using DatabaseLibrary.Enums;
+using DatabaseLibrary.Models;
 using DatabaseLibrary.Services;
 
 namespace ConsoleApp.Services;
 
 public class MenuService : IMenuService
 {
-    DatabaseService service;
+    private DatabaseService Service { get; set; } = new();
 
+    /// <summary>
+    /// Старт программы
+    /// </summary>
+    /// <param name="args">Аргументы строки</param>
     public void Start(String[] args)
     {
         try
         {
-            service = new();
-
             switch (args[1])
             {
                 case "install":
@@ -59,6 +62,10 @@ public class MenuService : IMenuService
         }
     }
 
+
+    /// <summary>
+    /// Вывод информации о командах консоли
+    /// </summary>
     private static void ShowInfo()
     {
         Console.WriteLine("dotnet run [команда]");
@@ -69,12 +76,18 @@ public class MenuService : IMenuService
         Console.WriteLine("\t post - ");
     }
 
-    public bool Install(String name)
+
+    /// <summary>
+    /// Инициализация базы данных
+    /// </summary>
+    /// <param name="name">Название базы</param>
+    public void Install(String name)
     {
+        bool complete = false;
         try
         {
-            string path = Path.Combine(service.GetBasePath(), $"{name}.db");
-            
+            string path = Path.Combine(Service.GetBasePath(), $"{name}.db");
+
 
             if (File.Exists(path))
             {
@@ -89,54 +102,85 @@ public class MenuService : IMenuService
                 if (answer is "y")
                 {
                     File.Delete(path);
-                    service.CreateTables();
-                    File.WriteAllText(Path.Combine(service.GetBasePath(), "database.txt"), $"{name}.db");
+                    complete = Service.CreateTables();
+                    File.WriteAllText(Path.Combine(Service.GetBasePath(), "database.txt"), $"{name}.db");
                 }
             }
             else
             {
-                File.WriteAllText(Path.Combine(service.GetBasePath(), "database.txt"), $"{name}.db");
-                service.CreateTables();
+                File.WriteAllText(Path.Combine(Service.GetBasePath(), "database.txt"), $"{name}.db");
+                complete = Service.CreateTables();
             }
-
-            return true;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            return false;
+        }
+        finally
+        {
+            String message = complete ? "База создана!" : "База не создана!";
+            Console.WriteLine(message);
         }
     }
 
+    /// <summary>
+    /// Метод вывода всех данных из базы
+    /// </summary>
     private void ViewData()
     {
         if (Authorization())
         {
-            List<Order> orders = service.View();
+            List<Order> orders = Service.View();
             if (orders.Count == 0)
             {
                 Console.WriteLine("Данных еще нет!");
                 return;
             }
 
-            List<IGrouping<String, Order>> groupedList = orders.GroupBy(c => c.Guid).ToList();
+            List<IGrouping<Transaction, Order>> groupedList = orders.GroupBy(c => c.Transaction).ToList()!;
             for (int i = 0; i < groupedList.Count; i++)
             {
-                // Order order = (Order)groupedList.ElementAt(i);
-                // Console.WriteLine($"\t{order.z}|{grouping.ElementAt()}");
+                Console.WriteLine(groupedList.ElementAt(i).Key.ToString());
+                for (int j = 0; j < groupedList.ElementAt(i).Count(); j++)
+                {
+                    Console.WriteLine(groupedList.ElementAt(i).ElementAt(j).ToString());
+                }
             }
         }
     }
 
+    /// <summary>
+    /// Удаление данных
+    /// </summary>
+    /// <param name="guid">Идентификатор записи</param>
     private void DeleteData(string guid)
     {
-        if (Authorization())
+        bool complete = false;
+        try
         {
+            if (Authorization())
+            {
+                complete = Service.Delete(guid);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+        finally
+        {
+            String message = complete ? "Данные удалены!" : "Данные не удалены!";
+            Console.WriteLine(message);
         }
     }
 
-    private bool ImportData(string path)
+    /// <summary>
+    /// Импорт данных
+    /// </summary>
+    /// <param name="path">Путь к файлу</param>
+    private void ImportData(string path)
     {
+        bool complete = false;
         try
         {
             if (Authorization())
@@ -144,23 +188,26 @@ public class MenuService : IMenuService
                 if (File.Exists(path))
                 {
                     FileInfo info = new FileInfo(path);
-                    Char separator;
+                    Char? separator;
 
                     switch (info.Extension)
                     {
                         case ".txt":
+                            Console.Write("Введите символ разделитель: ");
+                            separator = (Console.ReadLine() ?? String.Empty)[0];
+                            complete = Service.Import(path, FileExtension.Txt, separator);
+                            break;
                         case ".csv":
                             Console.Write("Введите символ разделитель: ");
                             separator = (Console.ReadLine() ?? String.Empty)[0];
+                            complete = Service.Import(path, FileExtension.Csv, separator);
                             break;
                         case ".json":
+                            complete = Service.Import(path, FileExtension.Json);
                             break;
                         case ".xml":
+                            complete = Service.Import(path, FileExtension.Xml);
                             break;
-                    }
-
-                    if (info.Extension == ".txt" || info.Extension == ".csv")
-                    {
                     }
                 }
             }
@@ -170,8 +217,11 @@ public class MenuService : IMenuService
             Console.WriteLine(e);
             //todo: сделать логи ошибок
         }
-
-        return false;
+        finally
+        {
+            String message = complete ? "Данные импортированы!" : "Данные не импортированы!";
+            Console.WriteLine(message);
+        }
     }
 
     private void PostData(string guid)

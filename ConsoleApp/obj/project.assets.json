@@ -347,11 +347,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\ConsoleApp\\ConsoleApp.csproj",
+      "projectUniqueName": "C:\\Users\\alena\\College\\УП04\\CarServiceProject\\ConsoleApp\\ConsoleApp.csproj",
       "projectName": "ConsoleApp",
-      "projectPath": "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\ConsoleApp\\ConsoleApp.csproj",
+      "projectPath": "C:\\Users\\alena\\College\\УП04\\CarServiceProject\\ConsoleApp\\ConsoleApp.csproj",
       "packagesPath": "C:\\Users\\alena\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\ConsoleApp\\obj\\",
+      "outputPath": "C:\\Users\\alena\\College\\УП04\\CarServiceProject\\ConsoleApp\\obj\\",
       "projectStyle": "PackageReference",
       "UsingMicrosoftNETSdk": false,
       "configFilePaths": [
@@ -368,8 +368,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\DatabaseLibrary\\DatabaseLibrary.csproj": {
-              "projectPath": "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\DatabaseLibrary\\DatabaseLibrary.csproj"
+            "C:\\Users\\alena\\College\\УП04\\CarServiceProject\\DatabaseLibrary\\DatabaseLibrary.csproj": {
+              "projectPath": "C:\\Users\\alena\\College\\УП04\\CarServiceProject\\DatabaseLibrary\\DatabaseLibrary.csproj"
             }
           }
         }
@@ -407,13 +407,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1900",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json."
-    }
-  ]
+  }
 }

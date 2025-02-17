@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\ConsoleApp\\ConsoleApp.csproj": {}
+    "C:\\Users\\alena\\College\\УП04\\CarServiceProject\\ConsoleApp\\ConsoleApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\ConsoleApp\\ConsoleApp.csproj": {
+    "C:\\Users\\alena\\College\\УП04\\CarServiceProject\\ConsoleApp\\ConsoleApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\ConsoleApp\\ConsoleApp.csproj",
+        "projectUniqueName": "C:\\Users\\alena\\College\\УП04\\CarServiceProject\\ConsoleApp\\ConsoleApp.csproj",
         "projectName": "ConsoleApp",
-        "projectPath": "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\ConsoleApp\\ConsoleApp.csproj",
+        "projectPath": "C:\\Users\\alena\\College\\УП04\\CarServiceProject\\ConsoleApp\\ConsoleApp.csproj",
         "packagesPath": "C:\\Users\\alena\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\ConsoleApp\\obj\\",
+        "outputPath": "C:\\Users\\alena\\College\\УП04\\CarServiceProject\\ConsoleApp\\obj\\",
         "projectStyle": "PackageReference",
         "UsingMicrosoftNETSdk": false,
         "configFilePaths": [
@@ -28,8 +28,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\DatabaseLibrary\\DatabaseLibrary.csproj": {
-                "projectPath": "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\DatabaseLibrary\\DatabaseLibrary.csproj"
+              "C:\\Users\\alena\\College\\УП04\\CarServiceProject\\DatabaseLibrary\\DatabaseLibrary.csproj": {
+                "projectPath": "C:\\Users\\alena\\College\\УП04\\CarServiceProject\\DatabaseLibrary\\DatabaseLibrary.csproj"
               }
             }
           }
@@ -68,14 +68,14 @@
         }
       }
     },
-    "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\DatabaseLibrary\\DatabaseLibrary.csproj": {
+    "C:\\Users\\alena\\College\\УП04\\CarServiceProject\\DatabaseLibrary\\DatabaseLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\DatabaseLibrary\\DatabaseLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\alena\\College\\УП04\\CarServiceProject\\DatabaseLibrary\\DatabaseLibrary.csproj",
         "projectName": "DatabaseLibrary",
-        "projectPath": "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\DatabaseLibrary\\DatabaseLibrary.csproj",
+        "projectPath": "C:\\Users\\alena\\College\\УП04\\CarServiceProject\\DatabaseLibrary\\DatabaseLibrary.csproj",
         "packagesPath": "C:\\Users\\alena\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\alena\\RiderProjects\\CarServiceProject\\DatabaseLibrary\\obj\\",
+        "outputPath": "C:\\Users\\alena\\College\\УП04\\CarServiceProject\\DatabaseLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "UsingMicrosoftNETSdk": false,
         "configFilePaths": [

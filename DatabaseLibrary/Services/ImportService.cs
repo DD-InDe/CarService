@@ -26,17 +26,15 @@ internal class ImportService(String path) : IImportService
         }
     }
 
-    public List<T> FromXml<T>()
+    public T FromXml<T>()
     {
         try
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<T>));
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
             Stream stream = File.OpenRead(_path);
 
             using var xmlReader = XmlReader.Create(stream);
-            List<T> list = (List<T>)serializer.Deserialize(xmlReader);
-
-            return list;
+            return (T)serializer.Deserialize(xmlReader);
         }
         catch (Exception e)
         {

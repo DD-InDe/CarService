@@ -37,6 +37,20 @@ public class Order : IFillable
             Materials = columns[9];
             ClientMaterials = columns[10];
         }
-        else throw new Exception("Ошибка при заполнении данных из полей");
+    }
+
+    public override string ToString()
+    {
+        StringWriter stringWriter = new StringWriter();
+        stringWriter.WriteLine($"\tId: {Id}");
+        stringWriter.WriteLine($"\tКлиент: {ClientFullName}");
+        stringWriter.WriteLine($"\tСотрудник: {EmployeeFullName}");
+        stringWriter.WriteLine($"\tДата создания: {DateCreate:d}");
+        stringWriter.WriteLine($"\tДата выполнения: {DateComplete:d}");
+        stringWriter.WriteLine($"\tАвтомобиль: {CarBrand} {CarModel} ({CarVin}) [{GovNumber}]");
+        stringWriter.WriteLine($"\tУслуги: {Services}");
+        stringWriter.WriteLine($"\tМатериалы: {Materials}");
+        stringWriter.WriteLine($"\tМатериалы клиента: {ClientMaterials}");
+        return stringWriter.ToString();
     }
 }

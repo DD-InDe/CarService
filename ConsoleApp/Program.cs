@@ -1,9 +1,7 @@
 ﻿using ConsoleApp.Services;
 
-// String[] arguments = Environment.GetCommandLineArgs();
-// if (arguments.Length == 1) return;
-//
-// MenuService menuService = new();
-// menuService.Start(arguments);
+String[] arguments = Environment.GetCommandLineArgs();
+if (arguments.Length == 1) return;
 
-Console.WriteLine(Guid.NewGuid());
+MenuService menuService = new();
+menuService.Start(arguments);

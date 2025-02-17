@@ -11,3 +11,16 @@ C:\Users\alena\RiderProjects\CarServiceProject\DatabaseLibrary\obj\Debug\net8.0\
 C:\Users\alena\RiderProjects\CarServiceProject\DatabaseLibrary\obj\Debug\net8.0\refint\DatabaseLibrary.dll
 C:\Users\alena\RiderProjects\CarServiceProject\DatabaseLibrary\obj\Debug\net8.0\DatabaseLibrary.pdb
 C:\Users\alena\RiderProjects\CarServiceProject\DatabaseLibrary\obj\Debug\net8.0\ref\DatabaseLibrary.dll
+C:\Users\alena\College\УП04\CarServiceProject\DatabaseLibrary\bin\Debug\net8.0\DatabaseLibrary.deps.json
+C:\Users\alena\College\УП04\CarServiceProject\DatabaseLibrary\bin\Debug\net8.0\DatabaseLibrary.dll
+C:\Users\alena\College\УП04\CarServiceProject\DatabaseLibrary\bin\Debug\net8.0\DatabaseLibrary.pdb
+C:\Users\alena\College\УП04\CarServiceProject\DatabaseLibrary\obj\Debug\net8.0\DatabaseLibrary.csproj.AssemblyReference.cache
+C:\Users\alena\College\УП04\CarServiceProject\DatabaseLibrary\obj\Debug\net8.0\DatabaseLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alena\College\УП04\CarServiceProject\DatabaseLibrary\obj\Debug\net8.0\DatabaseLibrary.AssemblyInfoInputs.cache
+C:\Users\alena\College\УП04\CarServiceProject\DatabaseLibrary\obj\Debug\net8.0\DatabaseLibrary.AssemblyInfo.cs
+C:\Users\alena\College\УП04\CarServiceProject\DatabaseLibrary\obj\Debug\net8.0\DatabaseLibrary.csproj.CoreCompileInputs.cache
+C:\Users\alena\College\УП04\CarServiceProject\DatabaseLibrary\obj\Debug\net8.0\DatabaseLibrary.sourcelink.json
+C:\Users\alena\College\УП04\CarServiceProject\DatabaseLibrary\obj\Debug\net8.0\DatabaseLibrary.dll
+C:\Users\alena\College\УП04\CarServiceProject\DatabaseLibrary\obj\Debug\net8.0\refint\DatabaseLibrary.dll
+C:\Users\alena\College\УП04\CarServiceProject\DatabaseLibrary\obj\Debug\net8.0\DatabaseLibrary.pdb
+C:\Users\alena\College\УП04\CarServiceProject\DatabaseLibrary\obj\Debug\net8.0\ref\DatabaseLibrary.dll

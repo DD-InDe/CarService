@@ -9,72 +9,76 @@ public class DatabaseService : IDatabaseService
     /// <summary>
     /// Метод для создания таблиц в базе данных
     /// </summary>
-    public void CreateTables()
+    public bool CreateTables()
     {
-        using var connection = new SqliteConnection(GetConnectionString());
-        connection.Open();
-        SqliteCommand command;
-
-        // создание таблицы Users
-        command = new()
+        try
         {
-            CommandText = "create table users(" +
-                          "id integer not null primary key autoincrement unique," +
-                          "login text," +
-                          "password text)",
-            Connection = connection
-        };
-        command.ExecuteNonQuery();
+            using var connection = new SqliteConnection(GetConnectionString());
+            connection.Open();
+            SqliteCommand command;
+
+            // создание таблицы Users
+            command = new()
+            {
+                CommandText = "create table users(" +
+                              "id integer not null primary key autoincrement unique," +
+                              "login text," +
+                              "password text)",
+                Connection = connection
+            };
+            command.ExecuteNonQuery();
 
 
-        // заполнение таблицы Users
-        command = new()
+            // заполнение таблицы Users
+            command = new()
+            {
+                CommandText = "insert into users (login, password) values ('admi@admin.ru','admin')",
+                Connection = connection
+            };
+            command.ExecuteNonQuery();
+
+
+            // создание таблицы Transaction
+            command = new()
+            {
+                CommandText = "create table [transaction](" +
+                              "guid text primary key unique ," +
+                              "date_time text, " +
+                              "table_name text," +
+                              "rows_count int)",
+                Connection = connection
+            };
+            command.ExecuteNonQuery();
+
+            // создание таблицы Order
+            command = new()
+            {
+                CommandText = "create table [order](" +
+                              "id integer not null primary key autoincrement unique," +
+                              "client_fullname text," +
+                              "date_create text," +
+                              "date_complete text," +
+                              "car_brand text," +
+                              "car_model text," +
+                              "gov_number text," +
+                              "car_vin text," +
+                              "employee_fullname text," +
+                              "services text," +
+                              "materials text," +
+                              "client_materials text," +
+                              "guid text)",
+                Connection = connection
+            };
+            command.ExecuteNonQuery();
+
+            connection.Close();
+            return true;
+        }
+        catch (Exception e)
         {
-            CommandText = "insert into users (login, password) values ('admi@admin.ru','admin')",
-            Connection = connection
-        };
-        command.ExecuteNonQuery();
-
-
-        // создание таблицы Transaction
-        command = new()
-        {
-            CommandText = "create table [transaction](" +
-                          "guid text primary key unique ," +
-                          "date_time text, " +
-                          "table_name text," +
-                          "rows_count int)",
-            Connection = connection
-        };
-        command.ExecuteNonQuery();
-
-        // создание таблицы Order
-        command = new()
-        {
-            CommandText = "create table [order](" +
-                          "id integer not null primary key autoincrement unique," +
-                          "client_fullname text," +
-                          "date_create text," +
-                          "date_complete text," +
-                          "car_brand text," +
-                          "car_model text," +
-                          "gov_number text," +
-                          "car_vin text," +
-                          "employee_fullname text," +
-                          "services text," +
-                          "materials text," +
-                          "client_materials text," +
-                          "guid text," +
-                          "foreign key (guid) references [transaction](guid) on delete cascade)",
-            Connection = connection
-        };
-        command.ExecuteNonQuery();
-
-        connection.Close();
-
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("База создана!");
-        Console.ResetColor();
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     /// <summary>
@@ -107,7 +111,7 @@ public class DatabaseService : IDatabaseService
                         Guid = (String)reader.GetValue(0),
                         DateTime = Convert.ToDateTime((String)reader.GetValue(1)),
                         TableName = (String)reader.GetValue(2),
-                        RowsCount = (int)reader.GetValue(3),
+                        RowsCount = Convert.ToInt32(reader.GetValue(3)),
                     });
                 }
             }
@@ -127,7 +131,7 @@ public class DatabaseService : IDatabaseService
                 {
                     Order order = new Order()
                     {
-                        Id = (int)reader.GetValue(0),
+                        Id = Convert.ToInt32(reader.GetValue(0)),
                         ClientFullName = (String)reader.GetValue(1),
                         DateCreate = Convert.ToDateTime((String)reader.GetValue(2)),
                         DateComplete = Convert.ToDateTime((String)reader.GetValue(3)),
@@ -159,7 +163,38 @@ public class DatabaseService : IDatabaseService
     /// <returns>Данные загружены</returns>
     public bool Delete(String guid)
     {
-        return true;
+        try
+        {
+            using var connection = new SqliteConnection(GetConnectionString());
+            connection.Open();
+
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = connection;
+            command.CommandText = "select guid from \"transaction\" where guid = @Guid";
+            command.Parameters.AddWithValue("@Guid", guid);
+            SqliteDataReader reader = command.ExecuteReader();
+            Console.WriteLine(reader.HasRows);
+            if (!reader.HasRows) return false;
+
+            command = new();
+            command.Connection = connection;
+            command.CommandText = "delete from \"transaction\" where guid=@Guid";
+            command.Parameters.AddWithValue("@Guid", guid);
+            command.ExecuteNonQuery();
+
+            command = new();
+            command.Connection = connection;
+            command.CommandText = "delete from \"order\" where guid=@Guid";
+            command.Parameters.AddWithValue("@Guid", guid);
+            command.ExecuteNonQuery();
+            connection.Close();
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     /// <summary>
@@ -169,11 +204,10 @@ public class DatabaseService : IDatabaseService
     /// <param name="separator">Символ-разделитель</param>
     /// <param name="extension">Расширение файла</param>
     /// <returns>Данные загружены</returns>
-    public bool Import(String path, FileExtension extension, char? separator)
+    public bool Import(String path, FileExtension extension, char? separator = null)
     {
         try
         {
-            List<String> text = File.ReadAllLines(path).ToList();
             Transaction transaction = new()
                 { Guid = Guid.NewGuid().ToString(), DateTime = DateTime.Now, TableName = "order" };
             ImportService service = new ImportService(path);
@@ -191,7 +225,7 @@ public class DatabaseService : IDatabaseService
                     orders = service.FromTxt<Order>(separator.Value);
                     break;
                 case FileExtension.Xml:
-                    orders = service.FromXml<Order>();
+                    orders = service.FromXml<OrderList>().Orders;
                     break;
                 default:
                     return false;
@@ -204,40 +238,40 @@ public class DatabaseService : IDatabaseService
             using var connection = new SqliteConnection(GetConnectionString());
             connection.Open();
 
-            SqliteCommand command = new SqliteCommand()
+            SqliteCommand transactionCommand = new SqliteCommand()
             {
                 CommandText =
                     $"insert into \"transaction\" (guid,date_time,table_name,rows_count)" +
-                    $"values ('{transaction.Guid}'," +
-                    $"'{transaction.DateTime:d}'," +
-                    $"'{transaction.TableName}'," +
-                    $"{transaction.RowsCount})",
+                    $"values (\"{transaction.Guid}\"," +
+                    $"\"{transaction.DateTime:d}\"," +
+                    $"\"{transaction.TableName}\"," +
+                    $"\"{transaction.RowsCount}\")",
                 Connection = connection
             };
-            command.ExecuteNonQuery();
+            transactionCommand.ExecuteNonQuery();
 
             foreach (var order in orders)
             {
                 order.Guid = transaction.Guid;
 
-                command = new SqliteCommand()
-                {
-                    CommandText =
-                        $"insert into \"order\" (client_fullname,date_create,date_complete,car_brand," +
-                        "car_model,gov_number,car_vin,employee_fullname,services,materials,client_materials)" +
-                        $"values ('{order.ClientFullName}'," +
-                        $"'{order.DateCreate:d}'," +
-                        $"'{order.DateComplete:d}'," +
-                        $"'{order.CarBrand}'," +
-                        $"'{order.CarModel}'," +
-                        $"'{order.GovNumber}'," +
-                        $"'{order.CarVin}'," +
-                        $"'{order.EmployeeFullName}'," +
-                        $"'{order.Services}'," +
-                        $"'{order.Materials}'," +
-                        $"{order.ClientMaterials})",
-                    Connection = connection
-                };
+                SqliteCommand command = new SqliteCommand();
+                command.Connection = connection;
+                command.CommandText = "insert into \"order\" (client_fullname,date_create,date_complete,car_brand," +
+                                      "car_model,gov_number,car_vin,employee_fullname,services,materials,client_materials,guid) " +
+                                      "values (@Client,@DCreate,@DComplete,@Brand," +
+                                      "@Model,@Number,@Vin,@Employee,@Services,@Materials,@CMaterials,@Guid)";
+                command.Parameters.AddWithValue("@Client", order.ClientFullName);
+                command.Parameters.AddWithValue("@DCreate", order.DateCreate.ToString("d"));
+                command.Parameters.AddWithValue("@DComplete", order.DateComplete.ToString("d"));
+                command.Parameters.AddWithValue("@Brand", order.CarBrand);
+                command.Parameters.AddWithValue("@Model", order.CarModel);
+                command.Parameters.AddWithValue("@Number", order.GovNumber);
+                command.Parameters.AddWithValue("@Vin", order.CarVin);
+                command.Parameters.AddWithValue("@Employee", order.EmployeeFullName);
+                command.Parameters.AddWithValue("@Services", order.Services);
+                command.Parameters.AddWithValue("@Materials", order.Materials);
+                command.Parameters.AddWithValue("@CMaterials", order.ClientMaterials);
+                command.Parameters.AddWithValue("@Guid", order.Guid);
                 command.ExecuteNonQuery();
             }
 
