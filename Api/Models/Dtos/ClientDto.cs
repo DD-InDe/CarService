@@ -1,11 +1,8 @@
-﻿using Api.Models.Database;
+﻿using Api.Models.ViewModels;
 
 namespace Api.Models.Dtos;
 
-public class ClientDto()
+public class ClientDto:ClientViewModel
 {
     public int Id { get; set; }
-    public String Email { get; set; } = "-";
-    public String Phone { get; set; } = "-";
-    public String FullName { get; set; } = "-";
 }

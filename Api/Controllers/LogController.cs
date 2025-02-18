@@ -15,11 +15,14 @@ public class LogController(LogService logService) : ControllerBase
     {
         try
         {
-            return Ok(logService.GetLogs());
+            List<LogModel> logs = logService.GetLogs();
+            logService.LogAction("Просмотр логов", true);
+            return Ok(logs);
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
+            logService.LogAction("Просмотр логов", false);
             return Conflict(e);
         }
     }

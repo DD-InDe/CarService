@@ -9,7 +9,7 @@ namespace Api.Controllers;
 [AllowAnonymous]
 [ApiController]
 [Route("api/")]
-public class PersonController(AccountService accountService, LogService logService) : ControllerBase
+public class AccountController(AccountService accountService, LogService logService) : ControllerBase
 {
     [HttpPost("authenticate")]
     public async Task<ActionResult<Account>> LogIn([FromBody] UserCredential credential)

@@ -37,7 +37,8 @@ public class EmployeeService(EmployeeRepository repository) : IModelService<Empl
 
     public async Task<bool> UpdateObject(EmployeeViewModel viewModel)
     {
-        return await repository.Update(ToModel(viewModel));
+        return false;
+        // return await repository.Update(ToModel(viewModel));
     }
 
     public async Task<bool> DeleteObject(int id)

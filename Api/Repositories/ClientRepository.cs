@@ -1,6 +1,9 @@
-﻿namespace Api.Repositories;
+﻿using Api.Models.Database;
+using Microsoft.EntityFrameworkCore;
 
-public class ClientRepository
+namespace Api.Repositories;
+
+public class ClientRepository(CarServiceDbContext context) : Repository<Client>(context)
 {
-    
+    private CarServiceDbContext _context = context;
 }
