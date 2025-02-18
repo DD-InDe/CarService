@@ -1,0 +1,9 @@
+System.InvalidOperationException: Value must be set.
+   at Microsoft.Data.Sqlite.SqliteParameter.Bind(sqlite3_stmt stmt)
+   at Microsoft.Data.Sqlite.SqliteParameterCollection.Bind(sqlite3_stmt stmt)
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteNonQuery()
+   at DatabaseLibrary.Services.DatabaseService.Import(String path, FileExtension extension, Nullable`1 separator) in C:\Users\alena\College\УП04\CarServiceProject\DatabaseLibrary\Services\DatabaseService.cs:line 275

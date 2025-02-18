@@ -1,15 +1,7 @@
-﻿String[] arguments = Environment.GetCommandLineArgs();
+﻿using ConsoleApp.Services;
 
-switch (arguments[1])
-{
-    case "install":
-        break;
-    case "view":
-        break;
-    case "delete":
-        break;
-    case "import":
-        break;
-    case "post":
-        break;
-}
+String[] arguments = Environment.GetCommandLineArgs();
+if (arguments.Length == 1) return;
+
+MenuService menuService = new();
+menuService.Start(arguments);
