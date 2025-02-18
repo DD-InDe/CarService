@@ -1,6 +1,4 @@
 ﻿using Api.Models.ClientModels;
-using Api.Models.Database;
-using Api.Models.Dtos;
 using Api.Models.ViewModels;
 using Api.Services;
 using Microsoft.AspNetCore.Authorization;

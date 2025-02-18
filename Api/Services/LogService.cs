@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Api.Models;
+﻿using Api.Models;
 
 namespace Api.Services;
 
@@ -30,13 +29,16 @@ public class LogService(IHttpContextAccessor httpContextAccessor) : ILogService
         List<LogModel> models = new();
         foreach (var line in lines)
         {
+            if (line.Length < 1) break;
+
             String[] column = line.Split(" | ");
+            String time = column[1].Replace("-", ":");
             models.Add(new()
             {
                 Date = DateOnly.FromDateTime(Convert.ToDateTime(column[0])),
-                Time = TimeOnly.FromDateTime(Convert.ToDateTime(column[1])),
-                Action = column[2],
-                Ip = column[3],
+                Time = TimeOnly.Parse(time),
+                Ip = column[2],
+                Action = column[3],
                 Status = column[4],
             });
         }
