@@ -1,19 +1,25 @@
 ﻿using Api.Models.Database;
 using Api.Models.Dtos;
+using Api.Models.ViewModels;
 using Api.Repositories;
 
 namespace Api.Services.ModelServices;
 
-public class EmployeeService(EmployeeRepository repository) : IModelService<EmployeeDto, Employee>
+public class EmployeeService(EmployeeRepository repository) : IModelService<EmployeeDto, Employee, EmployeeViewModel>
 {
-    public async Task<EmployeeDto> GetObjectById(int id)
+    public async Task<EmployeeDto?> GetObjectById(int id)
     {
-        return ToDto(await repository.GetById(id) ?? throw new ArgumentNullException());
+        Employee? employee = await repository.GetById(id);
+        if (employee == null) return null;
+
+        return ToDto(employee);
     }
 
-    public async Task<EmployeeDto> GetObjectByData(String login, String password)
+    public async Task<EmployeeDto?> GetObjectByData(String login, String password)
     {
-        return ToDto(await repository.GetByDataEmployee(login, password) ?? throw new ArgumentNullException());
+        Employee? employee = await repository.GetByDataEmployee(login, password);
+        if (employee == null) return null;
+        return ToDto(employee);
     }
 
     public async Task<List<EmployeeDto>> GetAllObjects()
@@ -24,14 +30,14 @@ public class EmployeeService(EmployeeRepository repository) : IModelService<Empl
         return employeeDtos;
     }
 
-    public async Task<bool> AddObject(EmployeeDto newObject)
+    public async Task<bool> AddObject(EmployeeViewModel viewModel)
     {
-        return await repository.Add(FromDto(newObject));
+        return await repository.Add(ToModel(viewModel));
     }
 
-    public async Task<bool> UpdateObject(EmployeeDto newObject)
+    public async Task<bool> UpdateObject(EmployeeViewModel viewModel)
     {
-        return await repository.Update(FromDto(newObject));
+        return await repository.Update(ToModel(viewModel));
     }
 
     public async Task<bool> DeleteObject(int id)
@@ -51,21 +57,22 @@ public class EmployeeService(EmployeeRepository repository) : IModelService<Empl
         return dto;
     }
 
-    public Employee FromDto(EmployeeDto dto)
+    public Employee ToModel(EmployeeViewModel viewModel)
     {
-        String[] fullName = dto.FullName.Split(' ');
+        String[] fullName = viewModel.FullName.Split(' ');
+        int id = viewModel.GetType() == typeof(EmployeeDto) ? ((EmployeeDto)viewModel).Id : 0;
         Employee employee = new Employee()
         {
-            Id = dto.Id,
+            Id = id,
             IdNavigation = new Person()
             {
-                Id = dto.Id,
+                Id = id,
                 LastName = fullName[0],
                 FirstName = fullName.Length > 0 ? fullName[1] : "-",
                 MiddleName = fullName.Length > 1 ? fullName[2] : "-"
             },
-            Login = dto.Login,
-            Password = dto.Password
+            Login = viewModel.Login,
+            Password = viewModel.Password
         };
         return employee;
     }

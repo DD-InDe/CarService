@@ -1,0 +1,19 @@
+﻿# curl -X 'POST' 
+#  'http://localhost:5158/api/authenticate' 
+#  -H 'accept: text/plain' 
+#  -H 'Content-Type: application/json' 
+#  -d '{
+#  "username": "admin",
+#  "password": "admin"
+#}'
+POST http://localhost:5158/api/authenticate
+accept: text/plain
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+###
+

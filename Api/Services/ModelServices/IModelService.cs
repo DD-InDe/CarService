@@ -1,12 +1,12 @@
 ﻿namespace Api.Services.ModelServices;
 
-public interface IModelService<D, O>
+public interface IModelService<D, M, VM>
 {
-    Task<D> GetObjectById(int id);
+    Task<D?> GetObjectById(int id);
     Task<List<D>> GetAllObjects();
-    Task<bool> AddObject(D newObject);
-    Task<bool> UpdateObject(D newObject);
+    Task<bool> AddObject(VM newObject);
+    Task<bool> UpdateObject(VM viewModel);
     Task<bool> DeleteObject(int id);
-    D ToDto(O model);
-    O FromDto(D dto);
+    D ToDto(M model);
+    M ToModel(VM dto);
 }

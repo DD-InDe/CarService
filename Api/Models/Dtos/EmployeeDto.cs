@@ -1,9 +1,8 @@
-﻿namespace Api.Models.Dtos;
+﻿using Api.Models.ViewModels;
 
-public class EmployeeDto
+namespace Api.Models.Dtos;
+
+public class EmployeeDto : EmployeeViewModel
 {
     public int Id { get; set; }
-    public String FullName { get; set; } = "-";
-    public String Login { get; set; } = "-";
-    public String Password { get; set; } = "-";
 }

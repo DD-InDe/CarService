@@ -23,6 +23,8 @@ public partial class CarServiceDbContext : DbContext
 
     public virtual DbSet<Employee> Employees { get; set; }
 
+    public virtual DbSet<ImportOrder> ImportOrders { get; set; }
+
     public virtual DbSet<Material> Materials { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
@@ -38,6 +40,8 @@ public partial class CarServiceDbContext : DbContext
     public virtual DbSet<Service> Services { get; set; }
 
     public virtual DbSet<Status> Statuses { get; set; }
+
+    public virtual DbSet<Transaction> Transactions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -68,8 +72,7 @@ public partial class CarServiceDbContext : DbContext
 
             entity.HasOne(d => d.IdNavigation).WithOne(p => p.Client)
                 .HasForeignKey<Client>(d => d.Id)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("client_id_fkey");
+                .HasConstraintName("client___fk");
         });
 
         modelBuilder.Entity<Employee>(entity =>
@@ -90,8 +93,50 @@ public partial class CarServiceDbContext : DbContext
 
             entity.HasOne(d => d.IdNavigation).WithOne(p => p.Employee)
                 .HasForeignKey<Employee>(d => d.Id)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("employee___fk");
+        });
+
+        modelBuilder.Entity<ImportOrder>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("import_order_pkey");
+
+            entity.ToTable("import_order");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CarBrand)
+                .HasMaxLength(100)
+                .HasColumnName("car_brand");
+            entity.Property(e => e.CarModel)
+                .HasMaxLength(100)
+                .HasColumnName("car_model");
+            entity.Property(e => e.CarNumber)
+                .HasMaxLength(15)
+                .HasColumnName("car_number");
+            entity.Property(e => e.CarVin)
+                .HasMaxLength(17)
+                .HasColumnName("car_vin");
+            entity.Property(e => e.ClientFullname)
+                .HasMaxLength(300)
+                .HasColumnName("client_fullname");
+            entity.Property(e => e.ClientMaterials)
+                .HasMaxLength(500)
+                .HasColumnName("client_materials");
+            entity.Property(e => e.DateComplete).HasColumnName("date_complete");
+            entity.Property(e => e.DateCreate).HasColumnName("date_create");
+            entity.Property(e => e.EmployeeFullname)
+                .HasMaxLength(300)
+                .HasColumnName("employee_fullname");
+            entity.Property(e => e.Guid).HasColumnName("guid");
+            entity.Property(e => e.Materials)
+                .HasMaxLength(500)
+                .HasColumnName("materials");
+            entity.Property(e => e.Services)
+                .HasMaxLength(500)
+                .HasColumnName("services");
+
+            entity.HasOne(d => d.Gu).WithMany(p => p.ImportOrders)
+                .HasForeignKey(d => d.Guid)
+                .HasConstraintName("import_order_guid_fkey");
         });
 
         modelBuilder.Entity<Material>(entity =>
@@ -245,6 +290,26 @@ public partial class CarServiceDbContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(100)
                 .HasColumnName("name");
+        });
+
+        modelBuilder.Entity<Transaction>(entity =>
+        {
+            entity.HasKey(e => e.Guid).HasName("transaction_pkey");
+
+            entity.ToTable("transaction");
+
+            entity.Property(e => e.Guid).HasColumnName("guid");
+            entity.Property(e => e.DateTime)
+                .HasMaxLength(30)
+                .HasColumnName("date_time");
+            entity.Property(e => e.Imported).HasColumnName("imported");
+            entity.Property(e => e.Reason)
+                .HasMaxLength(100)
+                .HasColumnName("reason");
+            entity.Property(e => e.RowsCount).HasColumnName("rows_count");
+            entity.Property(e => e.TableName)
+                .HasMaxLength(50)
+                .HasColumnName("table_name");
         });
 
         OnModelCreatingPartial(modelBuilder);

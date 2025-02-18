@@ -7,31 +7,33 @@ public class EmployeeRepository(CarServiceDbContext context) : IRepository<Emplo
 {
     public async Task<Employee?> GetById(int id)
     {
-        return await context.Employees.Include(c=>c.IdNavigation).FirstOrDefaultAsync(c=>c.Id==id);
+        return await context.Employees.Include(c => c.IdNavigation).FirstOrDefaultAsync(c => c.Id == id);
     }
 
     public async Task<Employee?> GetByDataEmployee(String login, String password)
     {
-        return await context.Employees.Include(c=>c.IdNavigation).FirstOrDefaultAsync(c => c.Login == login && c.Password == password);
+        return await context.Employees.Include(c => c.IdNavigation)
+            .FirstOrDefaultAsync(c => c.Login == login && c.Password == password);
     }
 
-    public async Task<List<Employee>?> GetAll()
+    public async Task<List<Employee>> GetAll()
     {
-        return await context.Employees.Include(c=>c.IdNavigation).ToListAsync();
+        return await context.Employees.Include(c => c.IdNavigation).ToListAsync();
     }
 
     public async Task<bool> Add(Employee entity)
     {
+        await context.People.AddAsync(entity.IdNavigation);
         await context.Employees.AddAsync(entity);
         return await context.SaveChangesAsync() > 0;
     }
 
     public async Task<bool> Delete(int id)
     {
-        Employee? employee = await context.Employees.FindAsync(id);
-        if (employee == null) return false;
+        Person? person = await context.People.FindAsync(id);
+        if (person == null) return false;
 
-        context.Employees.Remove(employee);
+        context.People.Remove(person);
         return await context.SaveChangesAsync() > 0;
     }
 
@@ -40,7 +42,7 @@ public class EmployeeRepository(CarServiceDbContext context) : IRepository<Emplo
         Employee? employee = await context.Employees.FindAsync(entity.Id);
         if (employee == null) return false;
 
-        context.Employees.Update(employee);
+        context.Employees.Update(entity);
         return await context.SaveChangesAsync() > 0;
     }
 }
