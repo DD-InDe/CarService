@@ -22,14 +22,25 @@ builder.Services.AddDbContext<CarServiceDbContext>();
 
 #region Repositories
 
+builder.Services.AddScoped<ClientRepository>();
 builder.Services.AddScoped<EmployeeRepository>();
+builder.Services.AddScoped<ImportOrderRepository>();
+builder.Services.AddScoped<MaterialRepository>();
+builder.Services.AddScoped<OrderMaterialClientRepository>();
+builder.Services.AddScoped<OrderMaterialServiceRepository>();
+builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<OrderServiceRepository>();
+builder.Services.AddScoped<PersonRepository>();
+builder.Services.AddScoped<ServiceRepository>();
+builder.Services.AddScoped<StatusRepository>();
+builder.Services.AddScoped<TransactionRepository>();
 
 #endregion
 
 #region ModelServices
 
 builder.Services.AddScoped<EmployeeService>();
-builder.Services.AddScoped<IModelService<EmployeeDto, Employee, EmployeeViewModel>, EmployeeService>();
+builder.Services.AddScoped<ClientService>();
 
 #endregion
 

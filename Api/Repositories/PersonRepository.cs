@@ -2,7 +2,7 @@
 
 namespace Api.Repositories;
 
-public class PersonRepository(CarServiceDbContext context) : Repository<Order>(context)
+public class PersonRepository(CarServiceDbContext context) : Repository<Person>(context)
 {
     private readonly CarServiceDbContext _context = context;
 }

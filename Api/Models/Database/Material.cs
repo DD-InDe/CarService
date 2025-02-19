@@ -1,4 +1,7 @@
-﻿namespace Api.Models.Database;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Api.Models.Database;
 
 public partial class Material
 {
