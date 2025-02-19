@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [ApiController]
-[Route("api/log")]
+[Route("api/")]
 public class LogController(LogService logService) : ControllerBase
 {
     [Authorize]

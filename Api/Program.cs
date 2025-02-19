@@ -23,7 +23,6 @@ builder.Services.AddDbContext<CarServiceDbContext>();
 #region Repositories
 
 builder.Services.AddScoped<EmployeeRepository>();
-builder.Services.AddScoped<IRepository<Employee>, EmployeeRepository>();
 
 #endregion
 
