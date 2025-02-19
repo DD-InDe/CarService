@@ -33,5 +33,7 @@ public partial class Order
 
     public virtual ICollection<OrderMaterialService> OrderMaterialServices { get; set; } = new List<OrderMaterialService>();
 
+    public virtual ICollection<OrderService> OrderServices { get; set; } = new List<OrderService>();
+
     public virtual Status? Status { get; set; }
 }

@@ -3,8 +3,8 @@
 public class OrderDto
 {
     public int Id { get; set; }
-    public String DateCreate { get; set; } = "-";
-    public String DateComplete { get; set; } = "-";
+    public DateOnly DateCreate { get; set; }
+    public DateOnly DateComplete { get; set; }
     public String CarBrand { get; set; } = "-";
     public String CarModel { get; set; } = "-";
     public String CarNumber { get; set; } = "-";

@@ -16,4 +16,9 @@ public class OrderMaterialClientRepository(CarServiceDbContext context) : Reposi
     {
         return await _context.OrderMaterialClients.Include(c => c.Order).ToListAsync();
     }
+    
+    public async Task<List<OrderMaterialClient>> GetAllByOrderId(int id)
+    {
+        return await _context.OrderMaterialClients.Include(c => c.Order).Where(c=>c.OrderId==id).ToListAsync();
+    }
 }

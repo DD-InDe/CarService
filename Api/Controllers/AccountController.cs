@@ -14,22 +14,23 @@ public class AccountController(AccountService accountService, LogService logServ
     [HttpPost("authenticate")]
     public async Task<ActionResult<Account>> LogIn([FromBody] UserCredential credential)
     {
+        String action = "Авторизация";
         try
         {
             Account? account = await accountService.LogIn(credential.Username, credential.Password);
             if (account == null)
             {
-                logService.LogAction("Авторизация", false);
+                logService.LogAction(action, false);
                 return NotFound("Пользователь не найден!");
             }
 
-            logService.LogAction("Авторизация", true);
+            logService.LogAction(action, true);
             return Ok(account);
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            logService.LogAction("Авторизация", false);
+            logService.LogAction(action, false);
             return Conflict(e);
         }
     }
@@ -37,13 +38,23 @@ public class AccountController(AccountService accountService, LogService logServ
     [HttpPost("registration")]
     public async Task<ActionResult> Registration([FromBody] EmployeeViewModel employee)
     {
+        String action = "Регистрация";
         try
         {
-            return await accountService.Registration(employee) ? Created() : Conflict("Регистрация не прошла!");
+            bool complete = await accountService.Registration(employee);
+            if (complete)
+            {
+                logService.LogAction(action, true);
+                Created();
+            }
+
+            logService.LogAction(action, false);
+            return Conflict("Регистрация не прошла!");
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
+            logService.LogAction(action, false);
             return Conflict(e);
         }
     }

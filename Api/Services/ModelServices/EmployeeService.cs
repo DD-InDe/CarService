@@ -6,29 +6,12 @@ using Api.Repositories;
 namespace Api.Services.ModelServices;
 
 public class EmployeeService(EmployeeRepository employeeRepository, PersonRepository personRepository)
-    : IWriteService<EmployeeDto, Employee, EmployeeViewModel>
 {
-    public async Task<EmployeeDto?> GetObjectById(int id)
-    {
-        Employee? employee = await employeeRepository.GetById(id);
-        if (employee == null) return null;
-
-        return ToDto(employee);
-    }
-
     public async Task<EmployeeDto?> GetObjectByData(String login, String password)
     {
         Employee? employee = await employeeRepository.GetByDataEmployee(login, password);
         if (employee == null) return null;
         return ToDto(employee);
-    }
-
-    public async Task<List<EmployeeDto>> GetAllObjects()
-    {
-        List<Employee> employees = await employeeRepository.GetAll() ?? new();
-        List<EmployeeDto> employeeDtos = new();
-        employees.ForEach(c => employeeDtos.Add(ToDto(c)));
-        return employeeDtos;
     }
 
     public async Task<bool> AddObject(EmployeeViewModel viewModel)
@@ -41,22 +24,7 @@ public class EmployeeService(EmployeeRepository employeeRepository, PersonReposi
         return await employeeRepository.Add(employee);
     }
 
-    public async Task<bool> UpdateObject(EmployeeViewModel viewModel)
-    {
-        Employee employee = ToModel(viewModel);
-
-        bool complete = await personRepository.Update(employee.IdNavigation, employee.Id);
-        if (!complete) return false;
-
-        return await employeeRepository.Update(employee, employee.Id);
-    }
-
-    public async Task<bool> DeleteObject(int id)
-    {
-        return await personRepository.Delete(id);
-    }
-
-    public EmployeeDto ToDto(Employee model)
+    private EmployeeDto ToDto(Employee model)
     {
         EmployeeDto dto = new()
         {
@@ -68,7 +36,7 @@ public class EmployeeService(EmployeeRepository employeeRepository, PersonReposi
         return dto;
     }
 
-    public Employee ToModel(EmployeeViewModel viewModel)
+    private Employee ToModel(EmployeeViewModel viewModel)
     {
         String[] fullName = viewModel.FullName.Split(' ');
         int id = viewModel.GetType() == typeof(EmployeeDto) ? ((EmployeeDto)viewModel).Id : 0;

@@ -44,9 +44,13 @@ public partial class CarServiceDbContext : DbContext
     public virtual DbSet<Transaction> Transactions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https: //go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql(
-            "Server=localhost;Port=5432;Database=car_service_db;Username=postgres;Password=123");
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            String connection = _configuration.GetValue<String>("ConnectionStrings:DefaultConnection")!;
+            optionsBuilder.UseNpgsql(connection);
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -238,11 +242,16 @@ public partial class CarServiceDbContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Count).HasColumnName("count");
             entity.Property(e => e.ExecutorId).HasColumnName("executor_id");
+            entity.Property(e => e.OrderId).HasColumnName("order_id");
             entity.Property(e => e.ServiceId).HasColumnName("service_id");
 
             entity.HasOne(d => d.Executor).WithMany(p => p.OrderServices)
                 .HasForeignKey(d => d.ExecutorId)
                 .HasConstraintName("order_service_executor_id_fkey");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderServices)
+                .HasForeignKey(d => d.OrderId)
+                .HasConstraintName("order_service_order_id_fkey");
 
             entity.HasOne(d => d.Service).WithMany(p => p.OrderServices)
                 .HasForeignKey(d => d.ServiceId)

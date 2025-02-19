@@ -18,4 +18,11 @@ public class OrderServiceRepository(CarServiceDbContext context) : Repository<Or
         return await _context.OrderServices.Include(c => c.Service).Include(c => c.Executor)
             .ToListAsync();
     }
+    
+    public async Task<List<OrderService>> GetAllByOrderId(object id)
+    {
+        return await _context.OrderServices.Include(c => c.Service).Include(c => c.Executor)
+            .Where(c=>c.OrderId == (int)id)
+            .ToListAsync();
+    }
 }

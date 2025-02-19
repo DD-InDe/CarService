@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using AccountService = Api.Services.AccountService;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -40,16 +41,14 @@ builder.Services.AddScoped<TransactionRepository>();
 #region ModelServices
 
 builder.Services.AddScoped<EmployeeService>();
-builder.Services.AddScoped<ClientService>();
+builder.Services.AddScoped<ViewService>();
 
 #endregion
 
 #region ControllerServices
 
 builder.Services.AddSingleton<IJwtTokenManager, JwtTokenManager>();
-
 builder.Services.AddScoped<AccountService>();
-builder.Services.AddScoped<IAccountService, AccountService>();
 
 #endregion
 
